@@ -86,7 +86,7 @@ func populateDevData(w http.ResponseWriter, r *http.Request) {
 		"safari",
 	} {
 		// TODO(lukebjerring): Move wpt.fyi base URL to constant.
-		jsonURL := "https://wpt.fyi/json?platform=" + browserName
+		jsonURL := "https://wpt.fyi/results?platform=" + browserName
 		resp, err := client.Head(jsonURL)
 		if resp != nil {
 			defer resp.Body.Close()
