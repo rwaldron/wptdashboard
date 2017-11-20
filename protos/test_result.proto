@@ -1,0 +1,44 @@
+// Copyright 2017 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package wptdashboard;
+
+import "bq_table_name.proto";
+import "browser.proto";
+import "google/protobuf/timestamp.proto";
+import "operating_system.proto";
+import "test_status.proto";
+
+// An result for a single test or sub-test from a TestRun.
+message TestResult {
+  option (gen_bq_schema.table_name) = "test_results";
+
+  OperatingSystem os = 1;
+  string os_version_str = 2;
+
+  Browser browser = 3;
+  string browser_version_str = 4;
+
+  google.protobuf.Timestamp test_run_start_time = 5;
+  google.protobuf.Timestamp test_run_end_time = 6;
+  string long_wpt_hash = 7;
+  google.protobuf.Timestamp wpt_commit_time = 8;
+
+  string test_name = 9;
+  string test_sub_name = 10;
+  TestStatus status = 11;
+  string result_message = 12;
+}
