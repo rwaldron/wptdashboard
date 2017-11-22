@@ -12,7 +12,6 @@
 SHELL := /bin/bash
 
 WPTD_PATH ?= /home/jenkins/wptdashboard
-WPTD_GO_PATH ?= $(GOPATH)/src/github.com/w3c/wptdashboard
 
 PB_LIB_DIR ?= ../protobuf/src
 PB_BQ_LIB_DIR ?= ../protoc-gen-bq-schema
@@ -46,12 +45,12 @@ py_test: py_proto py_deps
 	python -m unittest discover -p '*_test.py'
 
 go_lint: go_deps
-	cd $(WPTD_GO_PATH); golint -set_exit_status
+	golint -set_exit_status
 	# Print differences between current/gofmt'd output, check empty.
-	cd $(WPTD_GO_PATH); ! gofmt -d . 2>&1 | read
+	! gofmt -d . 2>&1 | read
 
 go_test: go_deps
-	cd $(WPTD_GO_PATH); go test -v ./...
+	go test -v ./...
 
 bq_proto: $(PROTOS)
 	mkdir -p $(PB_BQ_OUT_DIR)
@@ -72,4 +71,4 @@ py_deps: $(find . -type f | grep '\.py$' | grep -v '\_pb.py$')
 	pip install -r requirements.txt
 
 go_deps: $(find .  -type f | grep '\.go$' | grep -v '\.pb.go$')
-	cd $(WPTD_GO_PATH); go get -t ./...
+	cd $(GOPATH)/src/wptdashboard; go get -t ./...
